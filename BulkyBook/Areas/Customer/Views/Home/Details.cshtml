@@ -1,0 +1,98 @@
+﻿@model BulkyBook.Models.ShoppingCart
+<link rel="stylesheet" href="~/css/BookDetails.css" />
+<form asp-action="Details" asp-controller="Home" asp-area="Customer">
+    <input type="hidden" asp-for="ProductId"/>
+    <input type="hidden" asp-for="ApplicationUserID"/>
+    <div class="container">
+    <div class="card box-shadow">
+        <div class="card-body">
+            <div class="row p-3">
+                
+                <div class="col-lg-7 col-md-7 col-sm-6">
+                    <h4 class="box-title mt-5">@Model.Product.Title</h4>
+                    
+                    <p>@Html.Raw(Model.Product.Description)</p>
+                    
+                     <h3 class="box-title mt-5">Details</h3>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-product">
+                            <tbody>
+                                <tr>
+                                    <td width="390">Category</td>
+                                    <td>@Model.Product.Category.Name</td>
+                                </tr>
+                                <tr>
+                                    <td>Cover Type</td>
+                                    <td>@Model.Product.CoverType.Name</td>
+                                </tr>
+                                <tr>
+                                    <td>ISBN</td>
+                                    <td>@Model.Product.ISPN</td>
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <br />
+                   
+                      
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-product">
+                            <tr>
+                                <th class="text-primary">Quantity</th>
+                                <th class="text-primary">Price</th>
+                            </tr>
+                            <tbody>
+                                 <tr>
+                                    <td width="390">1</td>
+                                    <td class="text-success lead">$@{
+                                
+                                            @if(Model.Product.ListPrice > Model.Product.Price)
+                                            {
+                                                <span>@Model.Product.Price</span>
+                                            } else if(Model.Product.ListPrice < Model.Product.Price) {
+                                                <span>@Model.Product.ListPrice / </span><strike class="text-danger">@Model.Product.Price</strike> 
+                                                
+                                            } else  {
+                                                <span>@Model.Product.Price</span>
+                                            }
+
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="390">1-50</td>
+                                    <td class="text-success lead">$@Model.Product.Price50</td>
+                                </tr>
+                               <tr>
+                                    <td width="390">51-100</td>
+                                    <td class="text-success lead">$@Model.Product.Price100</td>
+                                </tr>
+                                
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-6">
+                    <div class="white-box text-center">
+                        <div>
+                            <img src="@Model.Product.ImageUrl" class="img-thumbnail" style="max-height:420px;">
+                        </div>
+                        
+                        <div class="mt-2 input-group" style="text-align:center; width:60%;min-width:32px; margin:0 auto">
+                            <input type="number" class="form-control border-2" asp-for="Count" />
+                            <button type="submit" class="btn btn-info btn-rounded">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</form>

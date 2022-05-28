@@ -1,0 +1,28 @@
+﻿@model IEnumerable<BulkyBook.Models.Product>
+<div class="row p-3">
+    @foreach(var product in Model)
+    {
+        <div class="col-lg-3 col-md-col-6" >
+            <div class="row p-2 h-100">
+                <div class="col-12 p-1 h-100">
+                    <div class="card box-shadow h-100">
+                            <img src="@product.ImageUrl"class="card-img-top rounded" style="max-height: 420px;"/>
+                            <div class="card-body">
+                                <p class="card-title">@product.Title</p>
+                                <p class="text-info">by @product.Author</p>
+                                <p class="card-text">List Price : <strike>$@product.ListPrice.ToString("0.00")</strike></p>
+                                <p class="card-text">At Lowest Price : @product.Price100.ToString("c")</p>
+                            </div>
+                    <a class="btn btn-primary form-control" asp-action="Details" asp-route-ProductId="@product.Id">
+                            Details
+                    </a>
+                    </div>
+                    
+               </div>
+
+            </div>
+                
+        </div>
+
+    }
+</div>

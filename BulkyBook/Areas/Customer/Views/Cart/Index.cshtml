@@ -1,0 +1,73 @@
+﻿@model BulkyBook.Models.ViewModels.ShoppingCartVM
+<link rel="stylesheet" href="~/css/cart.css"/>   
+
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-8">
+        <div class="table-responsive">
+          <h3>Shopping Cart</h3>
+          <table class="table-sm">
+            <thead>
+              <tr>
+                    <th>Product</th>
+                    <th>Cover</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach(var item in Model.cartList) {
+                  <tr>
+                <th scope="row">
+                  <div class="d-flex align-items-center">
+                    <img src="@item.Product.ImageUrl" class="img-fluid rounded-3"
+                      style="width: 120px;" alt="Book">
+                    <div class="flex-column ms-4">
+                      <p class="mb-2"><strong>@item.Product.Title</strong></p>
+                      <p class="mb-0 text-info">@item.Product.Author</p>
+                    </div>
+                  </div>
+                </th>
+                <td class="align-middle">
+                  <p class="mb-0" style="font-weight: 500;">@item.Product.CoverType.Name</p>
+                </td>
+                <td class="align-middle">
+                  <div class="d-flex flex-row">
+                    <a class="btn btn-link px-2" asp-action="Minus" asp-route-cartId="@item.Id"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                      <i class="bi bi-dash-circle"></i>
+                    </a>
+
+                    <input asp-for="@item.Count" id="form1" min="0" name="quantity" type="number"
+                      class="form-control form-control-sm" style="width: 10rem;" />
+
+                    <a class="btn btn-link px-2" asp-action="Plus" asp-route-cartId="@item.Id"
+                      onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                     <i class="bi bi-plus-circle text-info"></i>
+                    </a>
+                  </div>
+                </td>
+                <td class="align-middle">
+                  <p class="mb-0" style="font-weight: 500;"><strong>@(item.Price.ToString("c")) × @item.Count</strong></p>
+                </td>
+                <td class="align-middle">
+                    <a class="btn btn-link px-2" asp-action="Delete" asp-route-cartId="@item.Id">
+                       <i class="bi bi-x-circle text-danger"></i>
+                    </a>
+                </td>
+              </tr>
+              }
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-4 py-5">
+          <h3 class="text-dark lead">Total : @Model.OrderHeader.OrderTotal.ToString("c")</h3>
+          <a asp-action="Index" asp-controller="Home" class="btn btn-outline-info">Continue Shopping</a>
+          <a class="btn btn-outline-success" asp-action="Summary">Summary</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,133 @@
+﻿@model BulkyBook.Models.ViewModels.ProductVM
+
+<form method="post" asp-action="Upsert" enctype="multipart/form-data">
+    <input type="hidden" asp-for="@Model.product.Id" />
+    <input type="hidden" asp-for="@Model.product.ImageUrl" />
+    <div class="row p-3">
+        <div class="col-10 p-3">
+            <div class=" row col-12 pb-3">
+                <h2>@(Model.product.Id != 0? "Update" : "Create") Product</h2>
+                <div class="mb-3">
+                <label asp-for="product.Title"></label>
+                <input asp-for="product.Title" class="form-control"/>
+                <span asp-validation-for="product.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="product.Description"></label>
+                <textarea asp-for="product.Description" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="product.Description" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="product.Author"></label>
+                <input asp-for="product.Author" class="form-control"/>
+                <span asp-validation-for="product.Author" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="product.ISPN"></label>
+                <input asp-for="product.ISPN" class="form-control"/>
+                <span asp-validation-for="product.ISPN" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="product.ListPrice"></label>
+                <input asp-for="product.ListPrice" class="form-control"/>
+                <span asp-validation-for="product.ListPrice" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="product.Price"></label>
+                <input asp-for="product.Price" class="form-control"/>
+                <span asp-validation-for="product.Price" class="text-danger"></span>
+            </div> 
+            <div class="mb-3 col-6">
+                <label asp-for="product.Price50"></label>
+                <input asp-for="product.Price50" class="form-control"/>
+                <span asp-validation-for="product.Price50" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 col-6">
+                <label asp-for="product.Price100"></label>
+                <input asp-for="product.Price100" class="form-control"/>
+                <span asp-validation-for="product.Price100" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="product.ImageUrl"></label>
+                <input type ="file" name="file" asp-for="product.ImageUrl" class="form-control" id="uploadBox"/>
+        
+            </div>
+
+            <div class="mb-3 col-6">
+                <label asp-for="product.CategoryId"></label>
+                <select asp-for="product.CategoryId" class="form-control" asp-items="@Model.CategoriesList">
+                    <option selected disabled>--- Please Select Category ---</option>
+                </select>
+                <span asp-validation-for="product.CategoryId" class="text-danger"></span>
+            </div>
+            <div class="mb-3 col-6">
+                <label asp-for="product.CoverTypeId"></label>
+                <select asp-for="product.CoverTypeId" class="form-control" asp-items="@Model.CoverTypesList">
+                    <option selected disabled>--- Please Select Cover Type ----</option>
+                </select>
+                <span asp-validation-for="product.CoverTypeId" class="text-danger"></span>
+            </div>
+
+    
+
+            <div class="mb-3 col-12">
+
+                @if(Model.product.Id !=0)
+                    {
+                         <button style="width:150px" type="submit" class="btn btn-primary">
+                            Update
+                         </button>
+                    }else
+                    {
+                         <button style="width:150px" type="submit" onclick="return ValidateInput()" class="btn btn-primary">
+                            Create
+                         </button>
+                    }
+                    <a style="width:150px" asp-controller="Product" asp-area="Admin" asp-action="Index" class="btn btn-secondary">
+                   Back to List
+               </a>
+            </div>
+        </div>
+            </div>
+            
+        <div class="col-2 pt-4">
+            <img src="@Model.product.ImageUrl" alt="" style="width:100%; border-radius:5px; border: 2px #000000" />
+        </div>
+        
+    </div>
+</form>
+
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial"/>
+    }
+
+    <script>
+        tinymce.init({
+          selector: 'textarea',
+          plugins: 'a11ychecker advcode casechange export formatpainter image editimage linkchecker autolink lists checklist media mediaembed pageembed permanentpen powerpaste table advtable tableofcontents tinycomments tinymcespellchecker',
+          toolbar: 'a11ycheck addcomment showcomments casechange checklist code export formatpainter image editimage pageembed permanentpen table tableofcontents',
+          toolbar_mode: 'floating',
+          tinycomments_mode: 'embedded',
+          tinycomments_author: 'Author name',
+        });
+  </script>
+
+    <script type="text/javascript">
+        function ValidateInput() {
+            var uploadBox = document.getElementById("uploadBox");
+            if (uploadBox.value == "") {
+                Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: 'Please Upload an Image.'
+                         
+                })
+                return false
+            }
+            return true
+        }
+    </script>
+}

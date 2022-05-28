@@ -1,0 +1,105 @@
+﻿@model BulkyBook.Models.ViewModels.ShoppingCartVM
+@using Microsoft.Extensions.Options
+@inject IOptions<BulkyBook.Utils.StripeSettings> stribe
+
+<form method="post">
+    <div class="container w-75 p-7 h-25">
+        <div class="card">
+            <div class="card-header bg-dark text-light d-flex">
+                <div class="d-flex w-100 justify-content-between">
+                    <div class="col">
+                       <h4 class="text-white py-2">Order Summary</h4>
+                    </div>
+                    <div class="col text-end">
+                        <a asp-action="Index" class="btn btn-outline-info">Back To Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-8 mt-4 px-3"> 
+                        <h4>Shopping Details</h4>
+                         <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.Name">
+                            <span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
+                         </div>
+                          <div class="form-group">
+                            <label>Phone No.</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.PhoneNumber">
+                            <span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
+                         </div>
+                         <div class="form-group">
+                            <label>Street Address</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.StreetAddress">
+                            <span asp-validation-for="OrderHeader.StreetAddress" class="text-danger"></span>
+                         </div>
+                        <div class="row">
+                            <div class="form-group col-6">
+                            <label>City</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.City">
+                            <span asp-validation-for="OrderHeader.City" class="text-danger"></span>
+                         </div>
+                         <div class="form-group col-6">
+                            <label>State</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.State">
+                            <span asp-validation-for="OrderHeader.State" class="text-danger"></span>
+                         </div>
+                         <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" class="form-control" asp-for="OrderHeader.PostalCode">
+                            <span asp-validation-for="OrderHeader.PostalCode" class="text-danger"></span>
+                         </div>
+                        </div>
+                    </div>
+
+                    <div class="col mt-4 px-3">
+                        <h4>Order Summary</h4>
+                        <ul class=list-group>
+                            @foreach(var item in Model.cartList)
+                            {
+                              <li class=list-group-item>
+                                <div class="row">
+                                    <div class="col">
+                                        <p>Title : <span>@item.Product.Title</span></p>
+                                    </div>
+                                    <div class="col text-end">
+                                        <small>@((item.Price * item.Count).ToString("c"))</small>
+                                    </div>
+                                    <p>Quantity Count : <span>@item.Count</span> </p>
+                                </div>
+                                
+                              </li>
+                            }
+                           
+                            <li class=list-group-item>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="text-info">Total(USD) :</p>
+                                    </div>
+                                    <div class="col text-end">
+                                        <span class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+              
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col align-middle">
+                        <p class="mt-2 text-primary">Estimate Arrival Date :
+                            @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(10).ToShortDateString()
+                        </p>
+                    </div>
+                    <div class="col text-end">
+                        <button type="submit" class="btn btn-primary w-50">Place Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
